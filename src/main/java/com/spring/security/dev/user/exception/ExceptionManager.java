@@ -14,4 +14,10 @@ public class ExceptionManager {
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(Response.error(e.getMessage())); // -> RuntimeException Error Message를 넘겨주는 부분
     }
+
+    @ExceptionHandler(HospitalReviewAppException.class)
+    public ResponseEntity<?> hospitalReviewAppExceptionHandler(HospitalReviewAppException e) {
+        return ResponseEntity.status(e.getErrorCode().getStatus())
+                .body(Response.error(e.getErrorCode().getMessage()));
+    }
 }
