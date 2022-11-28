@@ -1,23 +1,17 @@
-package com.spring.security.dev.user.domain.entity;
+package com.spring.security.dev.user.domain.dto;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-
-@Entity
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class UserDto {
     private Long id;
-
-    @Column(unique = true)
     private String userName;
     private String password;
     private String emailAddress;
