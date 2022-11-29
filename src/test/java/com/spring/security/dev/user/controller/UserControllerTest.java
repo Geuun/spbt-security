@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -44,7 +45,7 @@ class UserControllerTest {
 
         when(userService.joinUser(any())).thenReturn(mock(UserDto.class));
 
-        mockMvc.perform(post("/api/v1/users/join")
+        mockMvc.perform(post("/api/v1/users/join").with(csrf()) // test를 위해 mock객체에 csrf 인증 사용
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(userJoinRequest)))
                 .andDo(print())
