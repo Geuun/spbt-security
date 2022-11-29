@@ -6,7 +6,9 @@ import com.spring.security.dev.user.domain.entity.User;
 import com.spring.security.dev.user.exception.ErrorCode;
 import com.spring.security.dev.user.exception.HospitalReviewAppException;
 import com.spring.security.dev.user.repository.UserRepository;
+import com.spring.security.dev.user.util.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,10 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder encoder;
+    @Value("${jwt.token.secret}")
+    private String secretKey;
+    private long expiredTimeMs = 1000 * 60 * 60; // 1 hour
+
 
     public UserDto joinUser(UserJoinRequest userJoinRequest) {
         /**
@@ -34,5 +40,24 @@ public class UserService {
                 .userName(savedUser.getUserName())
                 .emailAddress(savedUser.getEmailAddress())
                 .build();
+    }
+
+    public String login(String  userName, String  password) {
+        /**
+         * userName이 있는지 여부 확인
+         * 없다면 NOT FOUND Error 발생
+         */
+        User user = userRepository.findByUserName(userName)
+                .orElseThrow(() -> new HospitalReviewAppException(ErrorCode.NOT_FOUND, String.format("User %s was not found.", userName)));
+
+        // Password 일치 여부 확인
+        if (!encoder.matches(password, user.getPassword())) {
+            throw new HospitalReviewAppException(ErrorCode.INVALID_PASSWORD, "The password is wrong.");
+        }
+
+        // 토근 생성
+        String token = JwtTokenUtils.generateToken(userName, secretKey, expiredTimeMs);
+
+        return token;
     }
 }

@@ -1,9 +1,7 @@
 package com.spring.security.dev.user.controller;
 
 import com.spring.security.dev.user.domain.Response;
-import com.spring.security.dev.user.domain.dto.UserDto;
-import com.spring.security.dev.user.domain.dto.UserJoinRequest;
-import com.spring.security.dev.user.domain.dto.UserJoinResponse;
+import com.spring.security.dev.user.domain.dto.*;
 import com.spring.security.dev.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,5 +26,11 @@ public class UserController {
         UserDto userDto = userService.joinUser(userJoinRequest);
         UserJoinResponse userJoinResponse = new UserJoinResponse(userDto.getUserName(), userDto.getEmailAddress());
         return Response.success(userJoinResponse);
+    }
+
+    @PostMapping("/login")
+    public Response<UserLoginResponse> loginUser(@RequestBody UserLoginRequest userLoginRequest) {
+        String token = userService.login(userLoginRequest.getUserName(), userLoginRequest.getPassword());
+        return Response.success(new UserLoginResponse(token));
     }
 }
