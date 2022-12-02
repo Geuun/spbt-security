@@ -1,12 +1,9 @@
 package com.spring.security.dev.user.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.spring.security.dev.user.domain.Response;
 import com.spring.security.dev.user.domain.dto.UserDto;
 import com.spring.security.dev.user.domain.dto.UserJoinRequest;
 import com.spring.security.dev.user.domain.dto.UserLoginRequest;
-import com.spring.security.dev.user.domain.dto.UserLoginResponse;
 import com.spring.security.dev.user.exception.ErrorCode;
 import com.spring.security.dev.user.exception.HospitalReviewAppException;
 import com.spring.security.dev.user.service.UserService;
@@ -25,7 +22,6 @@ import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest
@@ -92,9 +88,10 @@ class UserControllerTest {
         when(userService.login(any(), any()))
                 .thenThrow(new HospitalReviewAppException(ErrorCode.NOT_FOUND, ""));
 
-        mockMvc.perform(post("/api/v1/users/login").with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsBytes(userLoginRequest)))
+        mockMvc.perform(post("/api/v1/users/login")
+                .with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(userLoginRequest)))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
@@ -112,7 +109,8 @@ class UserControllerTest {
         when(userService.login(any(), any()))
                 .thenThrow(new HospitalReviewAppException(ErrorCode.INVALID_PASSWORD, ""));
 
-        mockMvc.perform(post("/api/v1/users/login").with(csrf())
+        mockMvc.perform(post("/api/v1/users/login")
+                .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(userLoginRequest)))
                 .andDo(print())
@@ -120,7 +118,7 @@ class UserControllerTest {
     }
 
     @Test
-    @DisplayName("login - 성공")
+    @DisplayName("Login - 성공")
     @WithMockUser
     void login_success() throws Exception {
 
@@ -129,15 +127,16 @@ class UserControllerTest {
         String token = userService.login(userName, password);
         System.out.println("token : " + token);
 
-        when(userService.login(userName, password))
-                .thenReturn(token);
-
         UserLoginRequest userLoginRequest = UserLoginRequest.builder()
                 .userName(userName)
                 .password(password)
                 .build();
 
-        mockMvc.perform(post("/api/v1/users/login").with(csrf())
+        when(userService.login(userName, password))
+                .thenReturn(token);
+
+        mockMvc.perform(post("/api/v1/users/login")
+                .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(userLoginRequest)))
                 .andExpect(status().isOk())
