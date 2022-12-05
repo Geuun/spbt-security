@@ -1,18 +1,20 @@
 package com.spring.security.dev.user.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.spring.security.dev.user.domain.dto.UserDto;
-import com.spring.security.dev.user.domain.dto.UserJoinRequest;
-import com.spring.security.dev.user.domain.dto.UserLoginRequest;
+import com.spring.security.dev.user.dao.dto.UserDto;
+import com.spring.security.dev.user.dao.dto.UserJoinRequest;
+import com.spring.security.dev.user.dao.dto.UserLoginRequest;
 import com.spring.security.dev.user.exception.ErrorCode;
 import com.spring.security.dev.user.exception.HospitalReviewAppException;
 import com.spring.security.dev.user.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -33,8 +35,16 @@ class UserControllerTest {
     @MockBean
     UserService userService;
 
+    @MockBean
+    BCryptPasswordEncoder encoder;
+
+    @Value("${jwt.token.secret}")
+    private String secretKey;
+
     @Autowired
     ObjectMapper objectMapper;
+
+    private long expiredTimeMs = 1000 * 60 * 60; // 1 hour
 
     @Test
     @DisplayName("회원가입 성공")
