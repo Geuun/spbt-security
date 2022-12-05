@@ -1,4 +1,4 @@
-package com.spring.security.dev.user.util;
+package com.spring.security.dev.global.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -16,6 +16,10 @@ public class JwtTokenUtils {
         // expire timestamp를 반환
         Date expiredDate = extractClaims(token, secretKey).getExpiration();
         return expiredDate.before(new Date());
+    }
+
+    public static String getUserName(String token, String key) {
+        return extractClaims(token, key).get("userName").toString();
     }
 
     public static String generateToken(String userName, String key, long expireTimeMs) {
