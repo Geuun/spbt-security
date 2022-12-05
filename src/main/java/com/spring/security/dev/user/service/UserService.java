@@ -42,6 +42,11 @@ public class UserService {
                 .build();
     }
 
+    public User getUserByUserName(String userName) {
+        return userRepository.findByUserName(userName)
+                .orElseThrow(() -> new HospitalReviewAppException(ErrorCode.NOT_FOUND, "해당 유저가 존재하지 않습니다."));
+    }
+
     public String login(String  userName, String  password) {
         /**
          * userName이 있는지 여부 확인
@@ -55,7 +60,7 @@ public class UserService {
             throw new HospitalReviewAppException(ErrorCode.INVALID_PASSWORD, "The password is wrong.");
         }
 
-        // 토근 생성
+        // Token 생성
         String token = JwtTokenUtils.generateToken(userName, secretKey, expiredTimeMs);
 
         return token;
