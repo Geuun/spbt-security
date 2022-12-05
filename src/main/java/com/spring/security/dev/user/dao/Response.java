@@ -1,4 +1,4 @@
-package com.spring.security.dev.user.domain;
+package com.spring.security.dev.user.dao;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

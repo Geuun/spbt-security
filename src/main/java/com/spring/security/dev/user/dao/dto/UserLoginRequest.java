@@ -1,4 +1,4 @@
-package com.spring.security.dev.user.domain.dto;
+package com.spring.security.dev.user.dao.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

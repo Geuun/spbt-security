@@ -1,4 +1,4 @@
-package com.spring.security.dev.user.domain.entity;
+package com.spring.security.dev.user.dao.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

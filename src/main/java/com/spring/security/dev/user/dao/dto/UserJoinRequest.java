@@ -1,6 +1,6 @@
-package com.spring.security.dev.user.domain.dto;
+package com.spring.security.dev.user.dao.dto;
 
-import com.spring.security.dev.user.domain.entity.User;
+import com.spring.security.dev.user.dao.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

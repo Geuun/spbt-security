@@ -1,12 +1,12 @@
 package com.spring.security.dev.user.service;
 
-import com.spring.security.dev.user.domain.dto.UserDto;
-import com.spring.security.dev.user.domain.dto.UserJoinRequest;
-import com.spring.security.dev.user.domain.entity.User;
+import com.spring.security.dev.user.dao.dto.UserDto;
+import com.spring.security.dev.user.dao.dto.UserJoinRequest;
+import com.spring.security.dev.user.dao.entity.User;
 import com.spring.security.dev.user.exception.ErrorCode;
 import com.spring.security.dev.user.exception.HospitalReviewAppException;
 import com.spring.security.dev.user.repository.UserRepository;
-import com.spring.security.dev.user.util.JwtTokenUtils;
+import com.spring.security.dev.global.util.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

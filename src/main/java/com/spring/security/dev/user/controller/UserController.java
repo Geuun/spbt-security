@@ -1,7 +1,7 @@
 package com.spring.security.dev.user.controller;
 
-import com.spring.security.dev.user.domain.Response;
-import com.spring.security.dev.user.domain.dto.*;
+import com.spring.security.dev.user.dao.Response;
+import com.spring.security.dev.user.dao.dto.*;
 import com.spring.security.dev.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

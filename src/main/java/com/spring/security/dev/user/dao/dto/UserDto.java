@@ -1,4 +1,5 @@
-package com.spring.security.dev.user.domain.dto;
+package com.spring.security.dev.user.dao.dto;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +10,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserJoinResponse {
+public class UserDto {
+    private Long id;
     private String userName;
+    private String password;
     private String emailAddress;
 }
