@@ -10,7 +10,7 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewCreateRequest {
-    
+
     private String title;
     private String content;
 }
